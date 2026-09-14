@@ -22,7 +22,7 @@ if gerar_missao:
         st.warning("Escreva um assunto para começar. Pode ser algo pequeno.")
     else:
         # Sua primeira contribuição em Python: uma variável que guarda texto.
-        tarefa_baixa = "Leia um resumo curto do tema e anote uma ideia importante."
+        tarefa_baixa = "Leia um resumo curto do tema e dê uma ideia importante."
 
         if energia == "Baixa":
             tarefa = tarefa_baixa
