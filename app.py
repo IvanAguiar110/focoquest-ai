@@ -23,14 +23,14 @@ if gerar_missao:
         st.warning("Escreva um assunto para começar. Pode ser algo pequeno.")
     else:
         # Sua primeira contribuição em Python: uma variável que guarda texto.
-        tarefa_baixa = "Leia um resumo curto do tema e dê uma ideia importante."
+        tarefa_baixa = f"Leia um resumo curto sobre {assunto} e dê uma ideia importante."
 
         if energia == "Baixa":
             tarefa = tarefa_baixa
         elif energia == "Média":
-            tarefa = "Estude um conceito do tema e explique com um exemplo seu."
+            tarefa = f"Estude um conceito sobre {assunto} e explique com um exemplo seu."
         else:
-            tarefa = "Resolva um exercício do tema e explique como chegou à resposta."
+            tarefa = f"Resolva um exercício sobre {assunto} e explique como chegou à resposta."
 
         # Reservamos 2 minutos para começar e 3 para revisar.
         minutos_de_foco = duracao - 5
