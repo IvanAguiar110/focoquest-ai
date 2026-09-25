@@ -39,7 +39,14 @@ if gerar_missao:
             25: "Foco equilibrado",
             45: "Foco profundo",
         }
+        objetivos = {
+            "Baixa": "Entender uma ideia principal.",
+            "Média": "Explicar o tema com um exemplo.",
+            "Alta": "Aplicar o tema em um exercício.",
+        }
+
         ritmo = ritmos[duracao]
+        objetivo = objetivos[energia]
         with st.container(border=True):
             st.subheader("Sua missão")
             st.success("Missão criada. Comece pelo primeiro passo.")
@@ -47,6 +54,7 @@ if gerar_missao:
             st.caption(
                 f"{duracao} minutos · {ritmo} · Energia {energia.lower()} · Missão simulada"
                 )
+            st.info(f"Objetivo: {objetivo}")
             st.markdown("**1. Prepare · 2 min**")
             st.write("Abra um material sobre o assunto e escolha um trecho pequeno.")
             st.markdown(f"**2. Explore · {minutos_de_foco} min**")
