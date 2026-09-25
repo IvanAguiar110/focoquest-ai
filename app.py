@@ -1,5 +1,13 @@
 import streamlit as st
 
+def criar_tarefa(assunto, energia):
+    if energia == "Baixa":
+        return f"Leia um resumo curto sobre {assunto} e anote uma ideia importante."
+    elif energia == "Média":
+        return f"Estude um conceito sobre {assunto} e explique com um exemplo seu."
+    else:
+        return f"Resolva um exercício sobre {assunto} e explique como chegou à resposta."
+
 
 st.set_page_config(page_title="FocoQuest AI", page_icon="🎯", layout="centered")
 
@@ -22,15 +30,7 @@ if gerar_missao:
     if not assunto:
         st.warning("Escreva um assunto para começar. Pode ser algo pequeno.")
     else:
-        # Sua primeira contribuição em Python: uma variável que guarda texto.
-        tarefa_baixa = f"Leia um resumo curto sobre {assunto} e dê uma ideia importante."
-
-        if energia == "Baixa":
-            tarefa = tarefa_baixa
-        elif energia == "Média":
-            tarefa = f"Estude um conceito sobre {assunto} e explique com um exemplo seu."
-        else:
-            tarefa = f"Resolva um exercício sobre {assunto} e explique como chegou à resposta."
+        tarefa = criar_tarefa(assunto, energia)
 
         # Reservamos 2 minutos para começar e 3 para revisar.
         minutos_de_foco = duracao - 5
