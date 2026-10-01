@@ -1,13 +1,6 @@
 import streamlit as st
 
-def criar_tarefa(assunto, energia):
-    if energia == "Baixa":
-        return f"Leia um resumo curto sobre {assunto} e anote uma ideia importante."
-    elif energia == "Média":
-        return f"Estude um conceito sobre {assunto} e explique com um exemplo seu."
-    else:
-        return f"Resolva um exercício sobre {assunto} e explique como chegou à resposta."
-
+from missoes import criar_tarefa
 
 st.set_page_config(page_title="FocoQuest AI", page_icon="🎯", layout="centered")
 
@@ -19,6 +12,7 @@ st.caption("Escolha o que cabe na sua energia de hoje.")
 with st.form("nova_missao"):
     assunto = st.text_input("Assunto que quero estudar", placeholder="Ex.: variáveis em Python")
     duracao = st.selectbox("Duração (minutos)", [15, 25, 45])
+    modo = st.selectbox("Como quero estudar", ["Aprender", "Praticar", "Revisar"])
     energia = st.radio("Energia", ["Baixa", "Média", "Alta"], horizontal=True)
     desafio_extra = st.checkbox("Quero um desafio extra")
     gerar_missao = st.form_submit_button("Gerar missão", type="primary")
