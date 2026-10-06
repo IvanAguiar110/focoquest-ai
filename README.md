@@ -16,20 +16,20 @@ O assunto digitado é inserido em frases prontas. O aplicativo não interpreta o
 
 - Entrada livre do assunto de estudo.
 - Sessões de **15, 25 ou 45 minutos**, com os ritmos Sprint curto, Foco equilibrado e Foco profundo.
-- Tarefa principal e objetivo conforme a energia: **baixa, média ou alta**.
+- Modos **Aprender, Praticar e Revisar**, com um objetivo para cada modo.
+- Tarefa principal ajustada à energia: **baixa, média ou alta**, em cada modo.
 - Missão organizada em preparação, exploração e encerramento.
 - Desafio extra opcional.
 - Aviso quando o assunto está vazio ou contém apenas espaços.
 
-| Energia | Tarefa sugerida | Objetivo |
+| Modo | Exemplo de tarefa com energia baixa | Objetivo |
 | --- | --- | --- |
-| Baixa | Ler um tópico e anotar uma ideia | Entender uma ideia principal |
-| Média | Estudar um conceito e explicar com um exemplo | Explicar o tema com um exemplo |
-| Alta | Resolver um exercício e explicar a resposta | Aplicar o tema em um exercício |
+| Aprender | Ler um tópico e anotar uma ideia | Entender uma ideia nova |
+| Praticar | Resolver um exercício simples com apoio de um exemplo | Aplicar o que estudou |
+| Revisar | Explicar para si um tópico da última sessão | Recuperar o que estudou e identificar dúvidas |
 
 ### Limitações
 
-- O campo **“Como quero estudar”** oferece Aprender, Praticar e Revisar, mas ainda não influencia a missão.
 - A duração divide o tempo em 2 minutos de preparação, o restante para exploração e 3 minutos de encerramento. Não há cronômetro.
 - Não há histórico persistente, banco de dados, autenticação ou API REST.
 - A missão é exibida após o envio do formulário; não há acompanhamento de conclusão nesta versão.
@@ -75,6 +75,7 @@ python -m streamlit run app.py
 1. Digite `variáveis em Python`, escolha 15 minutos e energia Baixa.
 2. Clique em **Gerar missão** e confira a tarefa e o objetivo.
 3. Gere novamente com energia Média e depois Alta para comparar as sugestões.
+   Experimente também Praticar e Revisar: a tarefa e o objetivo devem acompanhar o modo escolhido.
 4. Escolha 25 ou 45 minutos e confira o ritmo e o tempo de exploração.
 5. Marque **Quero um desafio extra** e gere outra missão.
 6. Tente gerar com o assunto vazio ou apenas com espaços: deve aparecer um aviso.
@@ -84,18 +85,18 @@ python -m streamlit run app.py
 ```text
 FocoQuestAI/
 ├── app.py            # Interface, formulário e exibição da missão
-├── missoes.py        # Função criar_tarefa e regras por energia
+├── missoes.py        # Função criar_tarefa e regras por modo e energia
 ├── requirements.txt  # Dependência do aplicativo
 ├── .gitignore        # Arquivos locais excluídos do Git
 └── README.md         # Apresentação e instruções
 ```
 
-`app.py` importa `criar_tarefa` de `missoes.py`. A função recebe o assunto e a energia e devolve o texto da tarefa principal. Essa separação permite usar a regra sem abrir a interface do Streamlit.
+`app.py` importa `criar_tarefa` de `missoes.py`. A função recebe o assunto, a energia e o modo e devolve o texto da tarefa principal. O dicionário `tarefas` organiza as frases por modo e, dentro de cada modo, por energia: `tarefas[modo][energia]`. Essa separação permite usar a regra sem abrir a interface do Streamlit.
 
 Com o ambiente virtual ativado, é possível experimentar a função diretamente no terminal:
 
 ```bash
-python -c 'from missoes import criar_tarefa; print(criar_tarefa("Python", "Baixa"))'
+python -c 'from missoes import criar_tarefa; print(criar_tarefa("Python", "Baixa", "Aprender"))'
 ```
 
 Resultado esperado:
@@ -108,7 +109,6 @@ Os conceitos praticados incluem funções, parâmetros, `return`, módulos e `im
 
 ## Próximos passos
 
-- Conectar o modo de estudo à geração da tarefa.
 - Publicar uma demonstração que possa ser acessada pelo navegador.
 - Experimentar uma API REST com FastAPI reutilizando as regras de estudo.
 - Integrar IA para produzir missões específicas, com proteção da chave e controle de custos.

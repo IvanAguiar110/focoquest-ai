@@ -24,7 +24,7 @@ if gerar_missao:
     if not assunto:
         st.warning("Escreva um assunto para começar. Pode ser algo pequeno.")
     else:
-        tarefa = criar_tarefa(assunto, energia)
+        tarefa = criar_tarefa(assunto, energia, modo)
 
         # Reservamos 2 minutos para começar e 3 para revisar.
         minutos_de_foco = duracao - 5
@@ -34,19 +34,19 @@ if gerar_missao:
             45: "Foco profundo",
         }
         objetivos = {
-            "Baixa": "Entender uma ideia principal.",
-            "Média": "Explicar o tema com um exemplo.",
-            "Alta": "Aplicar o tema em um exercício.",
+            "Aprender": "Entender uma ideia nova sobre o tema.",
+            "Praticar": "Aplicar o que estudou em um exercício.",
+            "Revisar": "Recuperar o que estudou e identificar dúvidas.",
         }
 
         ritmo = ritmos[duracao]
-        objetivo = objetivos[energia]
+        objetivo = objetivos[modo]
         with st.container(border=True):
             st.subheader("Sua missão")
             st.success("Missão criada. Comece pelo primeiro passo.")
             st.text(f"Assunto: {assunto}")
             st.caption(
-                f"{duracao} minutos · {ritmo} · Energia {energia.lower()} · Missão simulada"
+                f"{duracao} minutos · {ritmo} · Energia {energia.lower()} · Modo {modo.lower()} · Missão simulada"
                 )
             st.info(f"Objetivo: {objetivo}")
             st.markdown("**1. Prepare · 2 min**")
