@@ -8,7 +8,7 @@ def criar_tarefa(assunto, energia, modo):
         "Praticar": {
             "Baixa": f"Resolva um exercício simples sobre {assunto}, consultando um exemplo se precisar.",
             "Média": f"Resolva um exercício sobre {assunto} e explique como chegou à resposta.",
-            "Alta": f"Resolva dois exercícios sobre {assunto} e compare suas soluções. Anote o que aprendeu com as diferenças.",
+            "Alta": f"Resolva dois exercícios sobre {assunto} e compare suas soluções. Anote o que aprendeu com as diferenças e identifique qual passo foi mais difícil.",
         },
         "Revisar": {
             "Baixa": f"Escolha um tópico da última sessão sobre {assunto} e explique para si, com suas palavras. Anote uma frase do que lembrou.",
