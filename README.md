@@ -20,6 +20,8 @@ O assunto digitado é inserido em frases prontas. O aplicativo não interpreta o
 - Tarefa principal ajustada à energia: **baixa, média ou alta**, em cada modo.
 - Missão organizada em preparação, exploração e encerramento.
 - Desafio extra opcional.
+- Botão **Concluir missão**, com confirmação e bloqueio de cliques repetidos.
+- Missão mantida entre interações na mesma sessão; gerar outra reinicia a conclusão.
 - Aviso quando o assunto está vazio ou contém apenas espaços.
 
 | Modo | Exemplo de tarefa com energia baixa | Objetivo |
@@ -32,7 +34,7 @@ O assunto digitado é inserido em frases prontas. O aplicativo não interpreta o
 
 - A duração divide o tempo em 2 minutos de preparação, o restante para exploração e 3 minutos de encerramento. Não há cronômetro.
 - Não há histórico persistente, banco de dados, autenticação ou API REST.
-- A missão é exibida após o envio do formulário; não há acompanhamento de conclusão nesta versão.
+- A missão e sua conclusão ficam apenas na sessão atual. Recarregar a página ou iniciar uma nova sessão reinicia esses dados; não há histórico de missões concluídas.
 
 ## Executar localmente
 
@@ -79,12 +81,14 @@ python -m streamlit run app.py
 4. Escolha 25 ou 45 minutos e confira o ritmo e o tempo de exploração.
 5. Marque **Quero um desafio extra** e gere outra missão.
 6. Tente gerar com o assunto vazio ou apenas com espaços: deve aparecer um aviso.
+7. Clique em **Concluir missão**: a missão deve continuar visível, com confirmação e botão desabilitado.
+8. Gere outra missão: o botão deve ficar disponível novamente. Uma tentativa com assunto vazio deve preservar a missão anterior.
 
 ## Organização do código
 
 ```text
 FocoQuestAI/
-├── app.py            # Interface, formulário e exibição da missão
+├── app.py            # Interface, formulário e estado da missão na sessão
 ├── missoes.py        # Função criar_tarefa e regras por modo e energia
 ├── requirements.txt  # Dependência do aplicativo
 ├── .gitignore        # Arquivos locais excluídos do Git
@@ -106,6 +110,8 @@ Leia um tópico sobre Python e anote uma ideia importante.
 ```
 
 Os conceitos praticados incluem funções, parâmetros, `return`, módulos e `import`, condições, dicionários e f-strings. O histórico do Git registra a evolução em pequenas etapas.
+
+`st.session_state["missao"]` guarda as escolhas enviadas e o campo booleano `concluida`. O botão de conclusão chama `concluir_missao`, que muda esse campo de `False` para `True`. A exibição lê a missão guardada, sem depender de um novo clique em **Gerar missão**.
 
 ## Próximos passos
 

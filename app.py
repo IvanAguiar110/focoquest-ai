@@ -4,6 +4,15 @@ from missoes import criar_tarefa
 
 st.set_page_config(page_title="FocoQuest AI", page_icon="🎯", layout="centered")
 
+# Inicializa apenas uma vez; preserva a missão entre os cliques desta sessão.
+if "missao" not in st.session_state:
+    st.session_state["missao"] = None
+
+
+def concluir_missao():
+    st.session_state["missao"]["concluida"] = True
+
+
 st.title("🎯 FocoQuest AI")
 st.write("Um assunto. Uma missão. Um passo de cada vez.")
 st.caption("Escolha o que cabe na sua energia de hoje.")
@@ -24,39 +33,60 @@ if gerar_missao:
     if not assunto:
         st.warning("Escreva um assunto para começar. Pode ser algo pequeno.")
     else:
-        tarefa = criar_tarefa(assunto, energia, modo)
-
-        # Reservamos 2 minutos para começar e 3 para revisar.
-        minutos_de_foco = duracao - 5
-        ritmos = {
-            15: "Sprint curto",
-            25: "Foco equilibrado",
-            45: "Foco profundo",
-        }
-        objetivos = {
-            "Aprender": "Entender uma ideia nova sobre o tema.",
-            "Praticar": "Aplicar o que estudou em um exercício.",
-            "Revisar": "Recuperar o que estudou e identificar dúvidas.",
+        # Guarda as escolhas enviadas, separadas das próximas edições do formulário.
+        st.session_state["missao"] = {
+            "assunto": assunto,
+            "duracao": duracao,
+            "modo": modo,
+            "energia": energia,
+            "desafio_extra": desafio_extra,
+            "tarefa": criar_tarefa(assunto, energia, modo),
+            "concluida": False,
         }
 
-        ritmo = ritmos[duracao]
-        objetivo = objetivos[modo]
-        with st.container(border=True):
-            st.subheader("Sua missão")
+# Exibe a missão guardada mesmo quando o clique foi em outro botão.
+missao = st.session_state["missao"]
+if missao is not None:
+    minutos_de_foco = missao["duracao"] - 5
+    ritmos = {
+        15: "Sprint curto",
+        25: "Foco equilibrado",
+        45: "Foco profundo",
+    }
+    objetivos = {
+        "Aprender": "Entender uma ideia nova sobre o tema.",
+        "Praticar": "Aplicar o que estudou em um exercício.",
+        "Revisar": "Recuperar o que estudou e identificar dúvidas.",
+    }
+
+    ritmo = ritmos[missao["duracao"]]
+    objetivo = objetivos[missao["modo"]]
+    with st.container(border=True):
+        st.subheader("Sua missão")
+        if missao["concluida"]:
+            st.success("Missão concluída! Você conseguiu mais um progresso em seu estudo.")
+        else:
             st.success("Missão criada. Comece pelo primeiro passo.")
-            st.text(f"Assunto: {assunto}")
-            st.caption(
-                f"{duracao} minutos · {ritmo} · Energia {energia.lower()} · Modo {modo.lower()} · Missão simulada"
-                )
-            st.info(f"Objetivo: {objetivo}")
-            st.markdown("**1. Prepare · 2 min**")
-            st.write("Abra um material sobre o assunto e escolha um trecho pequeno.")
-            st.markdown(f"**2. Explore · {minutos_de_foco} min**")
-            st.write(tarefa)
-            st.markdown("**3. Feche · 3 min**")
-            st.write("Releia sua anotação e registre uma dúvida para a próxima sessão.")
-            if desafio_extra:
-                st.markdown("**⭐ Desafio extra**")
-                st.write("Explique o tema sem consultar o material.")
+        st.text(f"Assunto: {missao['assunto']}")
+        st.caption(
+            f"{missao['duracao']} minutos · {ritmo} · Energia {missao['energia'].lower()} · "
+            f"Modo {missao['modo'].lower()} · Missão simulada"
+        )
+        st.info(f"Objetivo: {objetivo}")
+        st.markdown("**1. Prepare · 2 min**")
+        st.write("Abra um material sobre o assunto e escolha um trecho pequeno.")
+        st.markdown(f"**2. Explore · {minutos_de_foco} min**")
+        st.write(missao["tarefa"])
+        st.markdown("**3. Feche · 3 min**")
+        st.write("Releia sua anotação e registre uma dúvida para a próxima sessão.")
+        if missao["desafio_extra"]:
+            st.markdown("**⭐ Desafio extra**")
+            st.write("Explique o tema sem consultar o material.")
+        st.button(
+            "Concluir missão",
+            on_click=concluir_missao,
+            disabled=missao["concluida"],
+        )
+    st.caption("A missão é temporária: recarregar a página reinicia a sessão.")
 else:
     st.info("Sua missão aparecerá aqui depois de clicar em Gerar missão.")
