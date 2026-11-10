@@ -58,6 +58,11 @@ if missao is not None:
         "Praticar": "Aplicar o que estudou em um exercício.",
         "Revisar": "Recuperar o que estudou e identificar dúvidas.",
     }
+    preparos = {
+        "Aprender": "Abra um material sobre o assunto e escolha um trecho pequeno.",
+        "Praticar": "Separe um exercício sobre o assunto e deixe um exemplo por perto.",
+        "Revisar": "Antes de abrir suas anotações, tente lembrar uma ideia da última vez que estudou esse assunto.",
+    }
 
     ritmo = ritmos[missao["duracao"]]
     objetivo = objetivos[missao["modo"]]
@@ -74,7 +79,7 @@ if missao is not None:
         )
         st.info(f"Objetivo: {objetivo}")
         st.markdown("**1. Prepare · 2 min**")
-        st.write("Abra um material sobre o assunto e escolha um trecho pequeno.")
+        st.write(preparos[missao["modo"]])
         st.markdown(f"**2. Explore · {minutos_de_foco} min**")
         st.write(missao["tarefa"])
         st.markdown("**3. Feche · 3 min**")
